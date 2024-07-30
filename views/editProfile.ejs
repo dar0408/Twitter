@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Twitter Clone</title>
+    <link rel="stylesheet" href="/edit.css">
+</head>
+<body>
+  <h1><%=msg%></h1>
+
+  
+    <header>
+        <aside>
+            <a href="#" class="logo"><i class="fab fa-twitter"></i></a>
+            <ul>
+              <li><a href="/home"><i class="fa-solid fa-house"></i> Home</a></li>
+              <li class="li_active"><a href="/editProfile "><i class="fa-solid fa-user"></i> Profile</a></li>
+              <li><a href="/follower"><i class="fa-solid fa-user-plus"></i> Followers</a></li>
+              <li><a href="/following"><i class="fa-solid fa-user-plus"></i> Following</a></li>
+              <li><a href="/changePassword"><i class="fa-solid fa-gear"></i> Account Settings</a></li>
+              <li><a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li> 
+            </ul>
+            <button>Tweet</button>
+        </aside>
+        <section>
+            <nav>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+                <div class="search_bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search on twitter...">
+                </div>
+                <div class="user">
+                    <a href="/editProfile" style="text-decoration: none;">
+                    <h5><%= currentUser.fname %></h5> 
+                </a>
+                </div>
+            </nav>
+            <div class="profile_post_follow_bx">
+              <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="post_main_bx">
+                            <!-- Edit Profile Form -->
+                            <form id="edit_profile_form" action="/edit_done" method="POST">
+                                <label for="fname">First Name:</label>
+                                <input type="text" id="username" name="fname" value="<%= result[0].fname%>">
+                                <label for="mname">Middle Name:</label>
+                                <input type="text" id="username" name="mname" value="<%= result[0].mname%>">
+                                
+                                <label for="lname">Last Name:</label>
+                                <input type="text" id="email" name="lname" value="<%= result[0].lname%>">
+                                
+                                <label for="bio">Bio:</label>
+                                <textarea id="bio" name="bio" > <%= result[0].bio%> </textarea>
+                                
+                                <input type="submit" value="Update Profile">
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+                
+            </div>
+        </section>
+    </header>
+    <script src="app.js"></script>
+</body>
+</html>

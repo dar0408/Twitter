@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Twitter Clone</title>
+
+    <link rel="stylesheet" href="/home.css">
+
+</head>
+<body>
+  
+    <header>
+        <aside>
+            <a href="#" class="logo"><i class="fab fa-twitter"></i></a>
+            <ul>
+              <li class="li_active"><a href="/home"><i class="fa-solid fa-house"></i> Home</a></li>
+              <li><a href="/editProfile "><i class="fa-solid fa-user"></i> Profile</a></li>
+              <li><a href="/follower"><i class="fa-solid fa-user-plus"></i> Followers</a></li>
+              <li><a href="/following"><i class="fa-solid fa-user-plus"></i> Following</a></li>
+              <li><a href="/changePassword"><i class="fa-solid fa-gear"></i> Account Settings</a></li>
+              <li><a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li> 
+            </ul>
+            <button>Tweet</button>
+        </aside>
+        <section>
+            <nav>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+                <div class="search_bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search on twitter...">
+                </div>
+                <div class="user">
+                    
+                    <a href="/editProfile" style="text-decoration: none;">
+                    <h5><%= currentUser.fname %></h5> 
+                </a>
+               
+                </div>
+            </nav>
+            <div class="profile_post_follow_bx">
+                <div class="profile_bx">
+                    <div class="profile_card">
+                        
+                            <h2>Tweet Box</h2>
+                            <form action="/tweet" method="post" enctype="multipart/form-data">
+                                <textarea name="content" id="tweet_content" placeholder="What's happening?" maxlength="280"></textarea>
+                           
+                            <span id="char_count"> <input type="file" name="tweet_img"></span>
+                                <button style="margin-top: 8px;" type="submit">Tweet</button>
+                                
+                            </form>
+                        
+<!--                      
+                        <h3>Tweet Box</h3>
+                        
+                        <form action="/tweet" method="post"  enctype="multipart/form-data">
+                            <textarea name="content" rows="4" placeholder="Enter your tweet here..."></textarea>
+                            <input type="file" name="tweet_img">
+
+                            <button type="submit">Tweet</button>
+
+                        </form> -->
+                      
+                    
+                    </div>
+                    
+                </div>
+                <div class="post_follow_bx">
+                    <div class="post">
+                        <nav>
+                            <ul>
+                                <li><a href="#">Tweets</a></li>
+                                <li><a href="#">Tweets & Followers</a></li>
+                                <li><a href="#">Media</a></li>
+                                <li><a href="#">Likes</a></li>
+                            </ul>
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </nav>
+                        <div class="post_main_bx">
+                            
+                            <% for (var i=0;i<result.length;i++){ %>
+                            
+                            <div class="post_card_bx">
+                                
+                                <div class="content"> 
+                                    <div class="user_name_time">
+                                        <h5><%=result[i].fname %> </h5><h6><i class="fa-regular fa-clock"></i> <%= result[i].datetime %> </h6>
+                                    </div>
+                                    <h3><%= result[i].content %> </h3>
+                                    <% if(result[i].type=="image/jpg" || result[i].type=="image/jpeg" || result[i].type=="image/png" || result[i].type=="image/gif"){ %>
+                                        <img src="/email/<%=result[i].image_vdo_name%>" width="200" height="200">
+                                        
+                                    <% }if(result[i].type=="video/mp4"){%>
+                                        <video height="200" width="200" controls muted autoplay>
+                                            <source src="/email/<%=result[i].image_vdo_name%>">
+                                        </video>
+                                    <%}%>
+                                    <div class="tweet_card_social_data">
+                                        <div class="tweet_social_card">
+                                            <i class="fa-solid fa-comment"></i>
+                                            <span>368</span>
+                                        </div>
+                                        <div class="tweet_social_card">
+                                            <i class="fa-solid fa-repeat"></i>
+                                            <span>4523</span>
+                                        </div>
+                                        <!-- <div class="tweet_social_card">
+                                            <i class="fa-solid fa-heart"></i>
+                                            <span>445.8k</span>
+                                        </div> -->
+                                        <div class="tweet_social_card">
+                                            <form action="/like_tweet" method="POST">
+                                                <input type="hidden" name="tid" value="<%= result[i].tid %>">
+                                                <button type="submit" class="like-btn">
+                                                    <% if (result[i].isLiked) { %>
+                                                        <i class="fa-solid fa-heart liked"></i> 
+                                                    <% } else { %>
+                                                        <i class="fa-solid fa-heart"></i>
+                                                    <% } %>
+                                                    <span><%= result[i].likeCount %></span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        
+                                        
+                                        <div class="tweet_social_card">
+                                            <i class="fa-solid fa-share"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <% }%>
+
+                        </div>
+                    </div>
+                    <div class="follow_bx">
+                        <div class="trend_for_you">
+                            <nav>
+                                <h6>Trends for you</h6>
+                                <i class="fa-solid fa-gear"></i>
+                            </nav>
+                            <div class="trend_bx">
+                                <div class="rate">
+                                    <li><a href="#">#coldplay <br><p>937k tweets</p></a> <i class="fa-solid fa-chevron-down"></i></li>
+                                    <div class="interest">
+                                        <button class="smile"><i class="fa-solid fa-face-smile"></i> Interested</button>
+                                        <button class="frown"><i class="fa-solid fa-face-frown"></i>Not Interested</button>
+                                    </div>
+                                </div>
+                                <div class="rate">
+                                    <li><a href="#">#kanewilliamson <br><p>1.06k tweets</p></a> <i class="fa-solid fa-chevron-down"></i></li>
+                                    <div class="interest">
+                                        <button class="smile"><i class="fa-solid fa-face-smile"></i> Interested</button>
+                                        <button class="frown"><i class="fa-solid fa-face-frown"></i>Not Interested</button>
+                                    </div>
+                                </div>
+                                <div class="rate">
+                                    <li><a href="#">#conway <br><p>5.15k tweets</p></a> <i class="fa-solid fa-chevron-down"></i></li>
+                                    <div class="interest">
+                                        <button class="smile"><i class="fa-solid fa-face-smile"></i> Interested</button>
+                                        <button class="frown"><i class="fa-solid fa-face-frown"></i>Not Interested</button>
+                                    </div>
+                                </div>
+                                <div class="rate">
+                                    <li><a href="#">#rishabpant <br><p>5.15k tweets</p></a> <i class="fa-solid fa-chevron-down"></i></li>
+                                    <div class="interest">
+                                        <button class="smile"><i class="fa-solid fa-face-smile"></i> Interested</button>
+                                        <button class="frown"><i class="fa-solid fa-face-frown"></i>Not Interested</button>
+                                    </div>
+                                </div>
+                                <button class="see_more">SEE MORE</button>
+                            </div>
+                        </div>
+                        <div class="you_should_follow trend_for_you">
+                            <nav>
+                                <h6>You Should Follow</h6>
+                                <i class="fa-solid fa-rotate-right"></i>
+                            </nav>
+                            <div class="follow_bx">
+                                <div class="follow_profile_name">
+                                    <img src="img/user1.jpg" alt="" class="follow_profile">
+                                    <div class="user_name">
+                                        <div class="user_name_follow"><h6>MS Dhoni</h6><img src="icon/bluetick.png" alt=""></div>
+                                        <p>@msdhoni</p>
+                                    </div>
+                                </div>
+                                <button>Follow</button>
+                            </div>
+                            <div class="follow_bx">
+                                <div class="follow_profile_name">
+                                    <img src="img/user2.jpg" alt="" class="follow_profile">
+                                    <div class="user_name">
+                                        <div class="user_name_follow"><h6>Cristiano Ronaldo</h6><img src="icon/bluetick.png" alt=""></div>
+                                        <p>@ronaldo</p>
+                                    </div>
+                                </div>
+                                <button>Follow</button>
+                            </div>
+                            <div class="follow_bx">
+                                <div class="follow_profile_name">
+                                    <img src="img/user3.jpg" alt="" class="follow_profile">
+                                    <div class="user_name">
+                                        <div class="user_name_follow"><h6>Virat Khohli</h6><img src="icon/bluetick.png" alt=""></div>
+                                        <p>@viratkhohli</p>
+                                    </div>
+                                </div>
+                                <button>Follow</button>
+                            </div>
+                            <button class="see_more">SEE MORE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </header>
+    <script src="app.js"></script>
+</body>
+</html>
